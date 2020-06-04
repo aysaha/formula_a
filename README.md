@@ -7,7 +7,7 @@
 | Traxxas 4-Tec 2.0            | Chassis              |
 | Traxxas Titan 12T 550        | Motor                |
 | Traxxas XL-5                 | ESC                  |
-| Traxxas 2075R                | Steering Servo       |
+| Traxxas 2075R                | Servo                |
 | HRB 2s 55C 7000mAh LiPo      | Battery              |
 | Arduino Nano                 | Microcontroller      |
 | Nvidia Jetson Nano           | Computer             |
