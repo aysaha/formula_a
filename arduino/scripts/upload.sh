@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ARDUINO='C:\Program Files (x86)\Arduino'
-ROOT='C:\Users\Ayusman\Documents\AutoBot\arduino'
+ARDUINO="/usr/lib/arduino-1.8.12"
+ROOT="/home/aysaha/Documents/AutoBot/arduino"
 
 # check arguments
 if [ "$#" -ne 1 ]; then
@@ -10,33 +10,33 @@ if [ "$#" -ne 1 ]; then
 fi
 
 # create directory
-mkdir -p "$(wslpath "$ROOT\build")"
+mkdir -p $ROOT/build
 
 # build firmware
-"$(wslpath "$ARDUINO\arduino-builder.exe")" \
+$ARDUINO/arduino-builder \
 -compile \
 -warnings=all \
 -fqbn=arduino:avr:nano:cpu=atmega328 \
--hardware 'C:\Program Files (x86)\Arduino\hardware' \
--tools 'C:\Program Files (x86)\Arduino\tools-builder' \
--tools 'C:\Program Files (x86)\Arduino\hardware\tools\avr' \
--built-in-libraries 'C:\Program Files (x86)\Arduino\libraries' \
+-hardware $ARDUINO/hardware \
+-tools $ARDUINO/tools-builder \
+-tools $ARDUINO/hardware/tools/avr \
+-built-in-libraries $ARDUINO/libraries \
 -prefs=build.warn_data_percentage=75 \
--prefs=runtime.tools.avr-gcc.path='C:\Program Files (x86)\Arduino\hardware\tools\avr' \
--prefs=runtime.tools.arduinoOTA.path='C:\Program Files (x86)\Arduino\hardware\tools\avr' \
--prefs=runtime.tools.avrdude.path='C:\Program Files (x86)\Arduino\hardware\tools\avr' \
--build-path "$ROOT\build" \
-"$ROOT\src\main.ino"
+-prefs=runtime.tools.avr-gcc.path=$ARDUINO/hardware/tools/avr \
+-prefs=runtime.tools.arduinoOTA.path=$ARDUINO/hardware/tools/avr \
+-prefs=runtime.tools.avrdude.path=$ARDUINO/hardware/tools/avr \
+-build-path $ROOT/build \
+$ROOT/src/main.ino
 
 # upload firmware
 if [ "$?" -eq 0 ]; then
-    "$(wslpath "$ARDUINO\hardware\tools\avr\bin\avrdude.exe")" \
+    $ARDUINO/hardware/tools/avr/bin/avrdude \
     -v \
-    -C 'C:\Program Files (x86)\Arduino\hardware\tools\avr\etc\avrdude.conf' \
+    -C $ARDUINO/hardware/tools/avr/etc/avrdude.conf \
     -c arduino \
     -p atmega328p \
     -P $1 \
     -b 115200 \
     -D \
-    -U flash:w:"$ROOT\build\main.ino.hex":i
+    -U flash:w:$ROOT/build/main.ino.hex:i
 fi

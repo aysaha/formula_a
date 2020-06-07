@@ -12,7 +12,7 @@
 #define BAUD_RATE 115200
 #define BUFFER_SIZE 4
 
-enum state_t {UNKNOWN, RUNNING, ERROR};
+enum state_t{UNKNOWN, RUNNING, ERROR};
 
 state_t state;
 uint32_t time;
