@@ -11,7 +11,7 @@
 | HRB 2s 55C 7000mAh LiPo      | Battery              |
 | Arduino Nano                 | Microcontroller      |
 | Nvidia Jetson Nano           | Computer             |
-| Intel 8265AC                 | Wireless Card        |
+| Intel 8265                   | Wireless NIC         |
 | GeeekPi 4020                 | Cooling Fan          |
 | SanDisk Ultra 32GB microSDHC | Memory Card          |
 | Intel RealSense D435i        | Depth Camera and IMU |
