@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 import time
 import threading
@@ -14,7 +16,7 @@ class XboxController:
     MAX_TRIGGER = 1023
 
     def __init__(self):
-        assert len(list_devices()) == 1
+        #assert len(list_devices()) == 1
 
         self.device = InputDevice(list_devices()[0])
         self.thread = threading.Thread(target=self.monitor)
@@ -92,9 +94,14 @@ class XboxController:
         steer = ((self.LX / XboxController.MAX_JOYSTICK * 2) - 1) ** 3
         accel = (self.RT / XboxController.MAX_TRIGGER) ** 2
         brake = (self.LT / XboxController.MAX_TRIGGER) ** 2
+
+        if self.RIGHT == 1:     offset = 1
+        elif self.LEFT == 1:    offset = -1
+        else:                   offset = 0
+
         done = True if self.B == 1 else False
 
-        return steer, accel, brake, done
+        return steer, accel, brake, offset, done
 
 def main(args):
     assert 1 <= args.power <= 100
@@ -102,6 +109,7 @@ def main(args):
 
     # initialize controller
     controller = XboxController()
+    trim = 0
     done = False
 
     # initialize connection
@@ -112,7 +120,7 @@ def main(args):
     print("\n  STEER | ACCEL | BRAKE || CH 1 | CH 2")
     while not done:
         # read controller input
-        steer, accel, brake, done = controller.read()
+        steer, accel, brake, offset, done = controller.read()
 
         # limit throttle
         accel *= args.power / 100
@@ -120,6 +128,11 @@ def main(args):
         # convert inputs to servo commands
         position = int(500 * steer + 1500)
         speed = int(500 * (accel - brake) + 1500)
+
+        trim = trim + 10 * offset
+        
+        if position == 1500:
+            position += trim
 
         # transmit commands
         data = bytes([(position >> 8) & 0xFF, position & 0xFF, (speed >> 8) & 0xFF, speed & 0xFF])

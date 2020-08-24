@@ -1,1 +1,4 @@
-arduino/build
+**/build
+**/install
+**/log
+**/__pycache__

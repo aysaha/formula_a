@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ARDUINO="/usr/lib/arduino-1.8.12"
-PROJECT="/home/aysaha/Documents/AutoBot/arduino"
+PROJECT="/home/aysaha/autobot/arduino"
 
 # check arguments
 if [ "$#" -ne 1 ]; then
